@@ -4,8 +4,23 @@ import { useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
-import  Button  from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
+import ModalMovie from "./ModalMovie";
 function FavList(props) {
+  const [showFlag, setShowFlag] = useState(false);
+  const [itemData, setItemData] = useState({});
+  const modalRender = (param) => {
+    setItemData(param);
+    setShowFlag(true);
+  };
+  const handleClose = () => {
+    setShowFlag(false);
+  };
+  const deleteReq = (param) => {
+    const id = param.id;
+    const serverURL = `https://movies-library-production-1603.up.railway.app/DELETE/${id}`;
+    axios.delete(serverURL);
+  };
   const [favListArr, setFavListArr] = useState([]);
   const sendReq = () => {
     const serverURL =
@@ -17,7 +32,7 @@ function FavList(props) {
   useEffect(() => {
     sendReq();
   }, []);
-  const baseImageURL='https://image.tmdb.org/t/p/w780/';
+  const baseImageURL = "https://image.tmdb.org/t/p/w780/";
   return (
     <Row xs={1} md={4} className="g-4">
       {favListArr.map((item) => {
@@ -34,17 +49,26 @@ function FavList(props) {
               <Card.Body>
                 <Button
                   variant="success"
-                  // onClick={() => {
-                  //   modalRender(props.item);
-                  // }}
+                  onClick={() => {
+                    modalRender(item);
+                  }}
+                  style={{ margin: "3px" }}
                 >
                   Update
                 </Button>
-                {/* <ModalMovie
-            showFlag={showFlag}
-            handleClose={handleClose}
-            item={itemData}
-          /> */}
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    deleteReq(item);
+                  }}
+                >
+                  Delete
+                </Button>
+                <ModalMovie
+                  showFlag={showFlag}
+                  handleClose={handleClose}
+                  item={itemData}
+                />
               </Card.Body>{" "}
             </Card>
           </Col>
