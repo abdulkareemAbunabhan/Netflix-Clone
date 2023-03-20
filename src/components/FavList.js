@@ -19,7 +19,7 @@ function FavList(props) {
   const deleteReq = (param) => {
     const id = param.id;
     const serverURL = `https://movies-library-production-1603.up.railway.app/DELETE/${id}`;
-    axios.delete(serverURL);
+    axios.delete(serverURL).then()
   };
   const [favListArr, setFavListArr] = useState([]);
   const sendReq = () => {
@@ -31,13 +31,13 @@ function FavList(props) {
   };
   useEffect(() => {
     sendReq();
-  }, []);
+  }, [favListArr]);
   const baseImageURL = "https://image.tmdb.org/t/p/w780/";
   return (
     <Row xs={1} md={4} className="g-4">
       {favListArr.map((item) => {
         return (
-          <Col>
+          <Col key={item.id}>
             <Card style={{ width: "18rem" }}>
               <Card.Title>
                 <b>{item.title}</b>
@@ -68,6 +68,7 @@ function FavList(props) {
                   showFlag={showFlag}
                   handleClose={handleClose}
                   item={itemData}
+                  parent="favList"
                 />
               </Card.Body>{" "}
             </Card>

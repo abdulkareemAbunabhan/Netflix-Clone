@@ -15,7 +15,7 @@ function ModalMovie(props) {
     const obje={
       personalComments:e.target.personalComments.value
     };
-    if (props.item.id < 3000) {
+    if (props.parent === "favList" ) {
       const serverURL = `https://movies-library-production-1603.up.railway.app/UPDATE/${props.item.id}`;
       axios.put(serverURL, obje).then(() => {
         props.handleClose();
@@ -35,6 +35,7 @@ function ModalMovie(props) {
       show={props.showFlag}
       onHide={props.handleClose}
       aria-labelledby="example-modal-sizes-title-lg"
+      key={props.item.id}
     >
       <Modal.Header closeButton>
         <Modal.Title>{props.item.title}</Modal.Title>
@@ -49,7 +50,7 @@ function ModalMovie(props) {
             <Form.Label>
               <b>title</b>
             </Form.Label>
-            <Form.Control name="title" type="text" value={props.item.title} />
+            <Form.Control name="title" type="text" readOnly value={props.item.title} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>
@@ -59,6 +60,7 @@ function ModalMovie(props) {
               name="poster_path"
               type="text"
               value={props.item.poster_path}
+              readOnly
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -69,6 +71,7 @@ function ModalMovie(props) {
               name="overview"
               type="text"
               value={props.item.overview}
+              readOnly
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -78,7 +81,7 @@ function ModalMovie(props) {
             <Form.Control
               name="personalComments"
               type="text"
-              defaultValue={props.item.personalComments}
+              defaultValue={props.item.personalcomments}
             />
           </Form.Group>
           <Button variant="primary" type="submit">
