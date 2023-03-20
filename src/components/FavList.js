@@ -47,6 +47,7 @@ function FavList(props) {
                 variant="top"
               />
               <Card.Body>
+                <p><b>Personal comments: </b>{item.personalcomments}</p>
                 <Button
                   variant="success"
                   onClick={() => {
